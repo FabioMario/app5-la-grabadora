@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>audio&lowbar;vu &mdash; micr&oacute;fono&comma; c&oacute;dec ES8311 y VU-metro &lpar;Clase 5&rpar;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension marp-team.marp-vscode */
+#__marp-vscode {
+  all: revert;
+}
+
+/* Override VS Code default CSS rules reverting to initial
+   https://github.com/microsoft/vscode/blob/master/src/vs/workbench/contrib/webview/browser/pre/main.js#L53 */
+html:has(body.marp-vscode) {
+  padding: 0;
+}
+
+body.marp-vscode {
+  padding: 0;
+}
+
+body.marp-vscode img {
+  max-width: unset;
+  max-height: unset;
+}
+
+body.marp-vscode a,
+body.marp-vscode a:hover,
+body.marp-vscode code {
+  color: unset;
+}
+
+body.marp-vscode blockquote {
+  background: unset;
+  border-color: unset;
+}
+
+body.marp-vscode .code-block-copy-button {
+  display: none !important;
+}
+
+@media screen {
+  body.marp-vscode {
+    overflow-y: scroll;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    &.showEditorSelection {
+      --marp-vscode-highlight-color: rgb(255 255 255 / 40%);
+
+      &.vscode-light {
+        --marp-vscode-highlight-color: rgb(0 0 0 / 15%);
+      }
+
+      &.vscode-high-contrast {
+        --marp-vscode-highlight-color: rgb(255 160 0 / 70%);
+      }
+    }
+  }
+
+  #__marp-vscode [data-marp-vscode-slide-wrapper] {
+    margin: 20px;
+    position: relative;
+
+    &.code-active-line,
+    &:has(.code-active-line) {
+      &::before {
+        position: absolute;
+        content: '';
+        inset: -7px;
+        border: 3px solid var(--marp-vscode-highlight-color, transparent);
+        pointer-events: none;
+      }
+    }
+  }
+
+  #__marp-vscode svg[data-marpit-svg] {
+    box-shadow: 0 5px 10px rgb(0 0 0 / 25%);
+    display: block;
+    margin: 0;
+  }
+
+  /* Based on https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+  #code-csp-warning {
+    background-color: #444;
+    box-shadow: 1px 1px 1px rgb(0 0 0 / 25%);
+    color: white;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 12px;
+    line-height: 22px;
+    margin: 16px;
+    padding: 6px;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 0;
+    overflow-wrap: break-word;
+  }
+
+  #code-csp-warning:hover {
+    text-decoration: none;
+    background-color: #007acc;
+    box-shadow: 2px 2px 2px rgb(0 0 0 / 25%);
+  }
+}
+
+@media print {
+  body.marp-vscode #code-csp-warning {
+    display: none;
+  }
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <span id="markdown-mermaid" aria-hidden="true" data-config="{&quot;darkModeTheme&quot;:&quot;vscode&quot;,&quot;lightModeTheme&quot;:&quot;vscode&quot;,&quot;maxTextSize&quot;:50000,&quot;clickDrag&quot;:&quot;alt&quot;,&quot;showControls&quot;:&quot;onHoverOrFocus&quot;,&quot;resizable&quot;:true,&quot;maxHeight&quot;:&quot;&quot;}"></span>
+				<table>
+<thead>
+<tr>
+<th>Supported Targets</th>
+<th>ESP32-S2</th>
+</tr>
+</thead>
+</table>
+<h1 id="audio_vu--micrófono-códec-es8311-y-vu-metro-clase-5">audio_vu — micrófono, códec ES8311 y VU-metro (Clase 5)</h1>
+<p>Firmware base de la <strong>App 5</strong>. El micrófono de la <strong>ESP-LyraT-8311A</strong> entra por el códec <strong>ES8311</strong>, viaja por <strong>I2S con DMA</strong> hasta la SRAM y se convierte en un nivel en decibelios que se pinta en la <strong>TFT</strong>, en el <strong>LED RGB</strong> y en la consola.</p>
+<pre><code>   micro ──▶ ES8311 ──I2S/DMA──▶ [captura p8] ──cola──▶ [proceso p6] ──┐
+              (I2C: control)      RMS, pico,          balística        │ mutex
+                                  recortes           VU / PPM          ▼
+                                                                ┌────────────┐
+   [tactil p9] ──notificación──────────────────────────────────▶│  estado    │
+    cola de la ISR del táctil                                   │ compartido │
+                                                                └────────────┘
+                                                                       │ mutex
+   [interfaz p3] ◀─────────────────────────────────────────────────────┘
+    TFT + LED RGB + panel por consola
+
+   [timer software] ──▶ informe de tareas y de audio cada 10 s
+</code></pre>
+<p>Es la arquitectura de la Clase 4 aplicada a un problema con un <strong>plazo real</strong>. Lo que hay que ver funcionando:</p>
+<ul>
+<li>el audio <strong>no espera</strong>: el DMA sigue llenando descriptores mires o no, y lo que no se recoge a tiempo se pierde. La tarea <code>captura</code> no hace más que leer, medir y encolar;</li>
+<li>todo lo lento —formatear, dibujar, escribir por la UART— ocurre en la tarea de <strong>menor</strong> prioridad, y <strong>nunca</strong> con el mutex tomado;</li>
+<li>el <strong>decibelio se calcula en enteros</strong>: el Xtensa LX7 no tiene FPU;</li>
+<li>la pantalla se refresca <strong>por trozos</strong>: repintar 320×240 cuesta 30 ms de SPI, casi lo que dura un bloque de audio.</li>
+</ul>
+<h2 id="hardware">Hardware</h2>
+<table>
+<thead>
+<tr>
+<th>Placa</th>
+<th>Dónde va</th>
+<th>Para qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ESP-LyraT-8311A</strong></td>
+<td>Extension Header</td>
+<td>Micrófono, códec ES8311 y amplificador</td>
+</tr>
+<tr>
+<td><strong>ESP-LyraP-TouchA</strong></td>
+<td>Touch FPC Connector, cable de 20 pines</td>
+<td>Los cuatro botones</td>
+</tr>
+<tr>
+<td><strong>ESP-LyraP-LCD32</strong></td>
+<td>Encima de la placa de audio, en su Extension Header</td>
+<td>La pantalla — <strong>opcional</strong>, ver abajo</td>
+</tr>
+<tr>
+<td><strong>Jumper RGB</strong></td>
+<td>Junto al LED</td>
+<td>Sin él, el LED de GPIO45 no recibe señal</td>
+</tr>
+<tr>
+<td><strong>Altavoz o auriculares</strong></td>
+<td>Conector de 2 pines o salida de auriculares de la placa de audio</td>
+<td>Solo para la <strong>App 5</strong>: la ESP-LyraT-8311A trae micrófono, pero no altavoz</td>
+</tr>
+</tbody>
+</table>
+<h3 id="la-revisión-del-kit">La revisión del kit</h3>
+<p>El ejemplo está ajustado y probado en un <strong>kit v1.2</strong>: placa principal v1.2, ESP-LyraT-8311A v1.2 y ESP-LyraP-LCD32 v1.1. La revisión está impresa en cada placa. Entre el kit v1.2 y el v1.3 cambian tres cosas que este ejemplo toca:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Kit v1.2</th>
+<th>Kit v1.3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dato del micrófono: <code>I2S_DIN</code> en <code>audio_vu_main.c</code></td>
+<td><strong>GPIO46</strong>, el valor que trae el ejemplo</td>
+<td><strong>GPIO34</strong>: hay que cambiarlo a mano</td>
+</tr>
+<tr>
+<td>Flashear con la placa de audio montada</td>
+<td><strong>No se puede</strong>: ver «Cómo compilar, flashear y monitorear»</td>
+<td>Se puede</td>
+</tr>
+<tr>
+<td>Retroiluminación de la pantalla</td>
+<td>La enciende el programa con el <strong>GPIO6 en bajo</strong></td>
+<td>Encendida por hardware; el GPIO6 no la gobierna</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Con el pin de la otra revisión el programa arranca y <strong>no da ningún error</strong>, pero no recibe audio: el nivel se queda fijo en −90.0 dBFS. La columna del kit v1.3 sale de la documentación de Espressif: el ejemplo no se ha probado en uno.</p>
+</blockquote>
+<h3 id="los-microinterruptores-esta-vez-no-van-todos-en-off">Los microinterruptores, esta vez no van todos en OFF</h3>
+<p>Hasta la Clase 4 la instrucción era «<strong>T1–T14 en OFF</strong>», porque solo estaba la placa táctil. Con la de audio y la de LCD montadas eso <strong>ya no vale</strong>: en OFF esos GPIO quedan colgados del conector táctil, y aquí hacen falta para otras cosas.</p>
+<table>
+<thead>
+<tr>
+<th>Microinterruptor</th>
+<th style="text-align:center">Posición</th>
+<th>Por qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>T1, T2, T3, T5</strong></td>
+<td style="text-align:center"><strong>OFF</strong></td>
+<td>Son los cuatro botones que usa el ejemplo: VOL_UP, PLAY, VOL_DOWN y RECORD</td>
+</tr>
+<tr>
+<td><strong>T7, T8</strong></td>
+<td style="text-align:center"><strong>ON</strong></td>
+<td>GPIO7 y GPIO8 son el <strong>I2C</strong> del ES8311</td>
+</tr>
+<tr>
+<td><strong>T10, T12</strong></td>
+<td style="text-align:center"><strong>ON</strong></td>
+<td>GPIO10 es el PA del altavoz y GPIO12 el DOUT de I2S</td>
+</tr>
+<tr>
+<td><strong>T9, T11, T13</strong></td>
+<td style="text-align:center"><strong>ON</strong></td>
+<td>GPIO9, 11 y 13 son MOSI, CS y DC de la <strong>pantalla</strong></td>
+</tr>
+<tr>
+<td><strong>T6</strong></td>
+<td style="text-align:center"><strong>ON</strong></td>
+<td>Por el GPIO6 se enciende la <strong>retroiluminación</strong> de la pantalla; es también el BT_ADC de la placa de audio</td>
+</tr>
+<tr>
+<td><strong>T4, T14</strong></td>
+<td style="text-align:center"><strong>ON</strong></td>
+<td>No se usan</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>La regla, en una línea: <strong>en OFF solo los canales táctiles que de verdad usas</strong>; todos los demás, en ON.</p>
+</blockquote>
+<p>Cada microinterruptor une su GPIO con el conector de extensión, que es donde van montadas la placa de audio y la pantalla. El GPIO llega siempre al conector del táctil; en ON llega además a las placas de encima. Por eso, si T7 y T8 están en OFF el códec no responde por I2C y el programa se reinicia una y otra vez.</p>
+<h3 id="los-otros-interruptores-del-kit">Los otros interruptores del kit</h3>
+<table>
+<thead>
+<tr>
+<th>Dónde</th>
+<th>Interruptores</th>
+<th>Posición</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ESP-LyraP-LCD32 v1.1, por detrás</td>
+<td><em>Control Switch</em>: BLCT_H, BLCT_L, CS_H, CS_L, RST_H y RST_L</td>
+<td><strong>Todos en OFF</strong>. En ON solo añaden una resistencia de 10 kΩ a 3,3 V o a masa en esas líneas, y el programa ya las maneja. BLCT_L en ON no basta para encender la retroiluminación</td>
+</tr>
+<tr>
+<td>ESP-LyraP-LCD32 v1.1, por detrás</td>
+<td><em>Touch Screen Switch</em>: T_MISO, T_MOSI, T_SCK, T_CS, T_IRQ y T_BUSY</td>
+<td><strong>Todos en OFF</strong>. Son para un panel táctil que el kit no trae</td>
+</tr>
+<tr>
+<td>Placa principal</td>
+<td>Grupo JTAG</td>
+<td>No afecta al ejemplo</td>
+</tr>
+<tr>
+<td>ESP-LyraT-8311A</td>
+<td>No tiene microinterruptores, solo seis pulsadores</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3 id="los-conflictos-de-pines-y-cómo-los-esquiva-este-ejemplo">Los conflictos de pines, y cómo los esquiva este ejemplo</h3>
+<p>El ESP32-S2 tiene los pines multiplexados y las cuatro placas de extensión se pisan entre sí. El <em>User Guide</em> del kit trae la tabla; esto es lo que aplica aquí:</p>
+<table>
+<thead>
+<tr>
+<th>Conflicto</th>
+<th>Solución adoptada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>T6 (PHOTO)</strong> ↔ retroiluminación del LCD y BT_ADC de la placa de audio, los tres en el GPIO6</td>
+<td>No se inicializa T6</td>
+</tr>
+<tr>
+<td><strong>T11 (NETWORK)</strong> ↔ <em>chip select</em> de la pantalla</td>
+<td>No se inicializa T11</td>
+</tr>
+<tr>
+<td><strong>GPIO6</strong>: retroiluminación del LCD ↔ BT_ADC</td>
+<td><code>pantalla.c</code> pone el GPIO6 en <strong>bajo</strong>, que es lo que enciende la ESP-LyraP-LCD32 v1.1. Mientras esté en bajo, los seis botones de la placa de audio no se pueden leer; el ejemplo usa los táctiles</td>
+</tr>
+<tr>
+<td><strong>GPIO46</strong>: dato del micrófono ↔ pin de arranque del ESP32-S2, solo en el kit v1.2</td>
+<td>Se flashea con la placa de audio desmontada</td>
+</tr>
+<tr>
+<td>El <strong>SPI3</strong> es el único DMA del ADC y del DAC</td>
+<td>La pantalla va por <strong>SPI2</strong> y lo deja libre, aunque este ejemplo no lo use</td>
+</tr>
+</tbody>
+</table>
+<h2 id="con-pantalla-y-sin-pantalla">Con pantalla y sin pantalla</h2>
+<pre><code class="language-bash">idf.py -DPANTALLA=0 build    <span class="hljs-comment"># sin ESP-LyraP-LCD32: consola + LED</span>
+idf.py -DPANTALLA=1 build    <span class="hljs-comment"># con LCD32, driver del ST7789: lo probado</span>
+idf.py -DPANTALLA=2 build    <span class="hljs-comment"># con LCD32, driver del ILI9341</span>
+</code></pre>
+<p>Con <code>PANTALLA=0</code> todas las funciones de <code>pantalla.c</code> se compilan <strong>vacías</strong> y el programa que las llama no necesita ni un <code>#ifdef</code>. Es la forma barata de que el mismo código funcione con y sin la placa montada, y de que quien no la tenga pueda seguir la clase entera.</p>
+<blockquote>
+<p>Según la guía de Espressif, la <strong>ESP-LyraP-LCD32 v1.1</strong> (kit v1.2) lleva un ST7789V, y la <strong>v1.2</strong> (kit v1.3) puede traer un ST7789V o un ILI9341 según la serie del panel. Lo probado en una placa es <code>PANTALLA=1</code> con una LCD32 v1.1. <code>PANTALLA=2</code> compila, pero <strong>no se ha probado</strong>.</p>
+</blockquote>
+<blockquote>
+<p><strong>Desde VS Code</strong>, el botón <em>Build</em> no pasa <code>-DPANTALLA</code>: compila con el valor que haya guardado en la carpeta <code>build/</code>, y si no hay ninguno, con <code>PANTALLA=0</code>. Ejecuta una vez <code>idf.py -DPANTALLA=1 build</code> en la terminal de ESP-IDF, que se abre desde la paleta de comandos con «ESP-IDF: Open ESP-IDF Terminal»; en una terminal normal <code>idf.py</code> no existe. El valor queda guardado hasta que se borre <code>build/</code>, por ejemplo con un <em>Full Clean</em>. Si el informe de la consola dice <code>(sin pantalla)</code>, se compiló con <code>PANTALLA=0</code>.</p>
+</blockquote>
+<h3 id="cómo-debe-verse-la-pantalla">Cómo debe verse la pantalla</h3>
+<p>Fondo azul muy oscuro, casi negro. Arriba, el título en blanco. Debajo, el nivel en dBFS en grande y la barra, los dos del mismo color: <strong>verde</strong> hasta −12 dBFS, <strong>ámbar</strong> hasta −3 y <strong>rojo</strong> por encima. Abajo, en gris, el modo, la ganancia y los recortes. La imagen va apaisada y el texto se lee de izquierda a derecha.</p>
+<p>Si el fondo sale claro y las letras oscuras, la imagen está <strong>en negativo</strong>; si el texto se lee al revés, está <strong>en espejo</strong>. Las dos cosas dependen del panel y se corrigen en <code>pantalla.c</code>: ver «Solución de problemas».</p>
+<h2 id="las-cuatro-tareas">Las cuatro tareas</h2>
+<table>
+<thead>
+<tr>
+<th>Tarea</th>
+<th style="text-align:center">Prio</th>
+<th>Espera en</th>
+<th>Trabajo</th>
+<th>Por qué esa prioridad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>tactil</strong></td>
+<td style="text-align:center">9</td>
+<td>Cola de la ISR</td>
+<td>Balística, ganancia, reinicio de pico</td>
+<td>Responde a una persona, y hace cuatro cosas y se bloquea</td>
+</tr>
+<tr>
+<td><strong>captura</strong></td>
+<td style="text-align:center">8</td>
+<td><code>i2s_channel_read</code></td>
+<td>RMS, pico, recortes de cada bloque</td>
+<td><strong>El único plazo duro</strong>: 32 ms y el DMA no espera</td>
+</tr>
+<tr>
+<td><strong>proceso</strong></td>
+<td style="text-align:center">6</td>
+<td>Cola de niveles</td>
+<td>dBFS y balística del instrumento</td>
+<td>Consume lo que produce <code>captura</code></td>
+</tr>
+<tr>
+<td><strong>interfaz</strong></td>
+<td style="text-align:center">3</td>
+<td>Notificación o plazo</td>
+<td>TFT, LED y panel por consola</td>
+<td>Si se retrasa 100 ms, nadie lo nota</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><code>captura</code> va <strong>por debajo</strong> de <code>tactil</code> a propósito. Parece contradictorio —el audio es lo urgente— pero la tarea del táctil solo cambia cuatro variables y se vuelve a bloquear: nunca puede robarle 32 ms a nadie. Poner el audio arriba del todo no lo haría más rápido, y dejaría los botones sin atender durante los picos de carga.</p>
+</blockquote>
+<h2 id="mapa-de-botones">Mapa de botones</h2>
+<table>
+<thead>
+<tr>
+<th>Serigrafía</th>
+<th style="text-align:center">Canal</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PLAY</strong></td>
+<td style="text-align:center">T2</td>
+<td>Cambia la <strong>balística</strong>: VU → PPM → CRUDO</td>
+</tr>
+<tr>
+<td><strong>VOL_UP</strong></td>
+<td style="text-align:center">T1</td>
+<td>Sube la ganancia del micrófono, de 6 en 6 dB hasta 36</td>
+</tr>
+<tr>
+<td><strong>VOL_DOWN</strong></td>
+<td style="text-align:center">T3</td>
+<td>La baja hasta 0</td>
+</tr>
+<tr>
+<td><strong>RECORD</strong></td>
+<td style="text-align:center">T5</td>
+<td>Reinicia el pico retenido y el contador de recortes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="las-tres-balísticas-y-por-qué-no-son-cosmética">Las tres balísticas, y por qué no son cosmética</h3>
+<table>
+<thead>
+<tr>
+<th>Modo</th>
+<th>Ataque</th>
+<th>Caída</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>VU</strong></td>
+<td>lento (~250 ms)</td>
+<td>lento</td>
+<td>Mide <strong>sensación sonora</strong>: es lo que hace un vúmetro de aguja</td>
+</tr>
+<tr>
+<td><strong>PPM</strong></td>
+<td><strong>instantáneo</strong></td>
+<td>lento (~750 ms)</td>
+<td>Caza <strong>picos</strong>: es lo que hace falta para no recortar al grabar</td>
+</tr>
+<tr>
+<td><strong>CRUDO</strong></td>
+<td>ninguno</td>
+<td>ninguno</td>
+<td>Enseña el ruido de la propia medida, que es el que los otros dos esconden</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Un VU y un PPM <strong>miden cosas distintas</strong> con los mismos números. Con el modo CRUDO delante se entiende de golpe por qué existe la balística: sin filtrar, la aguja es ilegible.</p>
+</blockquote>
+<h2 id="colores-del-led">Colores del LED</h2>
+<table>
+<thead>
+<tr>
+<th>Color</th>
+<th>Nivel</th>
+<th>Significa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ámbar fijo</strong></td>
+<td>—</td>
+<td>Arrancando y calibrando el táctil</td>
+</tr>
+<tr>
+<td><strong>Azul tenue</strong></td>
+<td>por debajo de −45 dBFS</td>
+<td>Silencio</td>
+</tr>
+<tr>
+<td><strong>Verde</strong></td>
+<td>−45 a −12 dBFS</td>
+<td>Zona de trabajo</td>
+</tr>
+<tr>
+<td><strong>Ámbar</strong></td>
+<td>−12 a −3 dBFS</td>
+<td>Cerca del tope</td>
+</tr>
+<tr>
+<td><strong>Rojo</strong></td>
+<td>por encima de −3 dBFS</td>
+<td>Al borde del recorte</td>
+</tr>
+</tbody>
+</table>
+<h2 id="estructura">Estructura</h2>
+<pre><code>audio_vu/
+├── CMakeLists.txt
+├── sdkconfig.defaults        Tick de 1 ms, estadísticas de tareas, canario, PSRAM
+├── main/
+│   ├── CMakeLists.txt        Define PANTALLA=n
+│   ├── idf_component.yml     led_strip, esp_codec_dev y esp_lcd_ili9341
+│   ├── audio_vu_main.c       Audio, tareas y VU
+│   ├── pantalla.h            Rectángulos y texto; vacío si PANTALLA=0
+│   └── pantalla.c
+└── README.md   (este archivo)
+</code></pre>
+<p><code>pantalla.c</code> está <strong>aparte</strong> por dos razones: para que la App 5 lo reutilice sin tocarlo, y porque mezclar el dibujo con el audio en un solo archivo haría ilegibles los dos.</p>
+<h2 id="cómo-compilar-flashear-y-monitorear">Cómo compilar, flashear y monitorear</h2>
+<pre><code class="language-bash">idf.py set-target esp32s2
+idf.py -DPANTALLA=1 build
+idf.py -p /dev/cu.usbserial-XXXX flash monitor
+</code></pre>
+<ul>
+<li>Sustituye <code>/dev/cu.usbserial-XXXX</code> por tu puerto (<code>ls /dev/cu.*</code> en macOS).</li>
+<li>Conecta el cable al puerto <strong>UART</strong> de la placa.</li>
+<li>Salir del monitor: <code>Ctrl + ]</code>.</li>
+</ul>
+<blockquote>
+<p>⚠️ <strong>Kit v1.2: se flashea con la placa de audio desmontada.</strong> El GPIO46, por donde llega el micrófono, es también un pin de arranque: el ESP32-S2 solo entra en modo de descarga si lo encuentra en bajo, y con la placa de audio montada queda en alto. <code>esptool</code> termina con <code>Failed to connect to ESP32-S2: Wrong boot mode detected (0x4)</code>. Mantener pulsado BOOT no basta, porque ese botón solo baja el GPIO0. Se desmonta la placa de audio, con la pantalla que lleva encima, se flashea, se vuelven a montar y se enciende. Mientras la placa de audio no esté, el programa no encuentra el códec y se reinicia una y otra vez: es lo esperado.</p>
+</blockquote>
+<blockquote>
+<p>⚠️ <strong>No toques la placa durante el arranque.</strong> Si el <code>benchmark</code> del táctil se mide con el dedo apoyado, ese botón no se activará hasta el siguiente reset.</p>
+</blockquote>
+<h2 id="salida-esperada">Salida esperada</h2>
+<pre><code>I (301) audio_vu: === audio_vu: microfono, codec ES8311 y VU-metro ===
+I (302) audio_vu: PLAY = balistica VU/PPM/CRUDO | VOL_UP y VOL_DOWN = ganancia | RECORD = reinicia pico
+I (338) pantalla: panel ST7789 listo, 320x240, SPI2 a 40 MHz
+I (340) audio_vu: pantalla ST7789 activa
+I (395) audio_vu: Calibrando... NO toques la placa durante el arranque
+I (412) audio_vu:   PLAY     T2   benchmark=40887  umbral=817
+I (413) audio_vu:   VOL_UP   T1   benchmark=39954  umbral=799
+I (414) audio_vu:   VOL_DOWN T3   benchmark=40233  umbral=804
+I (415) audio_vu:   RECORD   T5   benchmark=41102  umbral=822
+I (418) audio_vu: codec listo: 16000 Hz, 16 bits, ganancia de entrada 24 dB
+I (420) audio_vu: [captura] 512 tramas por bloque = 32 ms a 16000 Hz
+I (421) audio_vu: Arranque completo. app_main termina; el planificador sigue.
+I (523) audio_vu: [interfaz] -58.2  dBFS [                                ] pico -54.1  | modo VU    gan 24 dB  recortes 0
+I (626) audio_vu: [interfaz] -31.7  dBFS [############                    ] pico -24.8  | modo VU    gan 24 dB  recortes 0
+I (3204) audio_vu: [tactil] PLAY (T2) -&gt; modo PPM  ganancia 24 dB | latencia ISR-&gt;tarea 41 us
+I (10362) audio_vu: --- Informe (cada 10 s) ---------------------------------
+I (10363) audio_vu:   tarea      prio estado      pila libre
+I (10364) audio_vu:   tactil     9    BLOQUEADA   3288 B
+I (10365) audio_vu:   captura    8    BLOQUEADA   3012 B
+I (10366) audio_vu:   proceso    6    BLOQUEADA   2408 B
+I (10367) audio_vu:   interfaz   3    BLOQUEADA   2760 B
+I (10368) audio_vu:   audio: 16000 Hz x 16 bits mono = 32000 B/s  ·  bloque 32000 us
+I (10369) audio_vu:   medir un bloque: 731 us como mucho (2 % del bloque)
+I (10370) audio_vu:   refrescar la pantalla: 9412 us como mucho  (ST7789)
+I (10371) audio_vu:   bloques 312  perdidos 0  lecturas cortas 0  cola 0/8
+I (10372) audio_vu:   SRAM interna libre: 151208 B  (minimo historico 148964 B)
+I (10373) audio_vu:   PSRAM libre: 2093596 B
+</code></pre>
+<blockquote>
+<p>Esta salida es <strong>orientativa</strong>: enseña el formato y lo que hay que buscar. Los tiempos, las pilas y la memoria libre de tu placa serán otros, y entre las líneas del ejemplo aparecen también las de <code>esp_codec_dev</code> y del driver de I2S.</p>
+</blockquote>
+<p><strong>Las cuatro tareas aparecen BLOQUEADAS</strong>, igual que en la Clase 4, y el presupuesto de tiempo es lo nuevo: <strong>medir un bloque cuesta el 2 % del bloque</strong>. Ese porcentaje es el número que dice si el sistema tiene margen. Si se acercara al 100 %, no habría CPU para nada más y empezarían a perderse muestras.</p>
+<h2 id="qué-mecanismo-se-usa-dónde-y-por-qué">Qué mecanismo se usa dónde, y por qué</h2>
+<table>
+<thead>
+<tr>
+<th>Mecanismo</th>
+<th>Dónde</th>
+<th>Por qué ese y no otro</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DMA de I2S</strong></td>
+<td>Códec → SRAM</td>
+<td>Mover 32 000 B/s con la CPU sería absurdo</td>
+</tr>
+<tr>
+<td><strong>Cola</strong></td>
+<td><code>captura → proceso</code></td>
+<td>Transporta la <strong>medida</strong> (24 bytes), no el audio (2048 bytes)</td>
+</tr>
+<tr>
+<td><strong>Cola</strong></td>
+<td>ISR del táctil → <code>tactil</code></td>
+<td>La ISR entrega trabajo a una tarea: patrón diferido</td>
+</tr>
+<tr>
+<td><strong>Mutex</strong></td>
+<td>Acceso a <code>s_estado</code></td>
+<td>Tres tareas escriben y leen la misma estructura</td>
+</tr>
+<tr>
+<td><strong>Notificación</strong></td>
+<td><code>proceso → interfaz</code></td>
+<td>Un emisor, un receptor: lo más barato del kernel</td>
+</tr>
+<tr>
+<td><strong>Semáforo binario</strong></td>
+<td>ISR del SPI → <code>interfaz</code></td>
+<td>Esperar a que el DMA termine de mandar un trozo antes de reutilizar el buffer de dibujo</td>
+</tr>
+<tr>
+<td><strong>Timer software</strong></td>
+<td>Informe cada 10 s</td>
+<td>Periódico y ligero, sin gastar una tarea</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Por la cola viaja el <strong>resultado</strong>, no el bloque. Copiar 2048 bytes por la cola en cada bloque multiplicaría por 85 el tráfico y no aportaría nada: el consumidor solo necesita cuatro números. Además, la copia de una cola se hace dentro de una sección crítica.</p>
+</blockquote>
+<h2 id="detalles-de-diseño-que-conviene-mirar-en-el-código">Detalles de diseño que conviene mirar en el código</h2>
+<ul>
+<li><strong>La cola no bloquea al productor.</strong> <code>xQueueSend(..., 0)</code> prefiere perder una <strong>medida</strong> a retrasar la siguiente lectura de I2S, porque lo que se perdería entonces sería <strong>audio</strong>. La política se elige, y el ejemplo cuenta lo que descarta.</li>
+<li><strong>El decibelio, en enteros.</strong> <code>dB = 20·log10(x) = 6,0206·log2(x)</code>, y 6,0206 en Q8 es 1541. <code>log2_q8()</code> saca la parte entera de la posición del bit más alto y la fracción interpolando la mantisa. No hay ni una coma flotante en el camino del audio.</li>
+<li><strong>La continua se resta antes de elevar al cuadrado.</strong> Sin ese paso, una entrada con offset marcaría nivel alto en silencio absoluto. El ES8311 ya cancela la continua con un filtro digital propio; el programa la resta igualmente porque no debe depender de cómo esté configurado el códec.</li>
+<li><strong>Se procesa una ranura de cada dos.</strong> El ES8311 es <strong>mono</strong> y entrega su único convertidor en la ranura izquierda de la trama estéreo. En la derecha <code>esp_codec_dev</code> deja la <strong>referencia del DAC</strong>, es decir, lo que se esté reproduciendo: hoy, silencio. Contar las dos ranuras falsearía el nivel.</li>
+<li><strong>La pantalla se refresca por diferencias.</strong> Solo se pinta el trozo de barra que cambió, la marca de pico que se movió y el número y el pie <strong>cuando el texto cambia</strong>. El fondo, el título y la escala se dibujan <strong>una vez</strong>.</li>
+<li><strong>Se espera al DMA antes de reutilizar el buffer de dibujo.</strong> <code>esp_lcd_panel_draw_bitmap()</code> encola la transferencia y vuelve; <code>pantalla.c</code> se bloquea en un semáforo que da la interrupción del SPI. Sin esa espera, el carácter siguiente se compondría sobre un buffer que el DMA todavía está leyendo.</li>
+<li><strong>El múltiplo de MCLK se declara en tres sitios, y tiene que ser el mismo.</strong> En el I2S (<code>mclk_multiple</code>), en el ES8311 (<code>mclk_div</code>) y en la estructura con la que se abre el dispositivo: <code>esp_codec_dev</code> <strong>reconfigura</strong> el reloj del I2S al abrirlo, y sin ese campo vuelve a 256 mientras el códec sigue haciendo cuentas para 384. No da ningún error.</li>
+<li><strong>El canal <code>tx</code> se inicializa primero y queda en marcha.</strong> En el ESP32-S2, <code>tx</code> y <code>rx</code> comparten BCLK y WS, y los genera el que se inicializa primero. Con <code>auto_clear</code> manda silencio hasta que la App 5 le escriba algo.</li>
+<li><strong>El orden de los campos de <code>nivel_t</code> está elegido.</strong> Con el <code>int64_t</code> delante la estructura mide 24 bytes; con la marca de tiempo entre los campos pequeños, el relleno la deja en 32. Un <code>_Static_assert</code> lo vigila.</li>
+<li><strong>El buffer de audio vive en el heap.</strong> 2 KB en la pila de una tarea es la mitad de lo que tiene.</li>
+</ul>
+<h2 id="por-qué-el-sdkconfigdefaults">Por qué el <code>sdkconfig.defaults</code></h2>
+<table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Para qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CONFIG_FREERTOS_HZ=1000</code></td>
+<td>Un bloque son 32 ms: con un tick de 10 ms el retraso mínimo sería un tercio del bloque</td>
+</tr>
+<tr>
+<td><code>CONFIG_FREERTOS_USE_TRACE_FACILITY=y</code></td>
+<td>Habilita el informe de estado y pila de cada tarea</td>
+</tr>
+<tr>
+<td><code>CONFIG_FREERTOS_CHECK_STACKOVERFLOW_CANARY=y</code></td>
+<td>Avisa del desbordamiento en vez de reiniciar sin explicación</td>
+</tr>
+<tr>
+<td><code>CONFIG_SPIRAM=y</code></td>
+<td>No hace falta para el VU, <strong>sí</strong> para la App 5: 10 s de audio son 320 KB y no caben en la SRAM interna</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cosas-para-probar">Cosas para probar</h2>
+<table>
+<thead>
+<tr>
+<th>Experimento</th>
+<th>Qué observar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modo <strong>CRUDO</strong> y hablar</td>
+<td>El número salta varios dB entre bloques: eso es lo que la balística esconde</td>
+</tr>
+<tr>
+<td>Subir la ganancia a 36 dB y dar una palmada</td>
+<td>Aparecen <strong>recortes</strong>: información destruida que no se recupera bajando el volumen después</td>
+</tr>
+<tr>
+<td><code>BLOQUE_TRAMAS</code> a 128</td>
+<td>El VU responde cuatro veces más rápido y la tarea despierta cuatro veces más</td>
+</tr>
+<tr>
+<td><code>BLOQUE_TRAMAS</code> a 4096</td>
+<td>256 ms por bloque: el VU se vuelve inútil aunque el audio siga entrando bien</td>
+</tr>
+<tr>
+<td>Poner <code>PRIO_INTERFAZ</code> a 9</td>
+<td>Dibujar manda: sube el máximo de «medir un bloque», porque la interfaz interrumpe a <code>captura</code> en mitad de la medida. El audio no se pierde mientras el retraso quepa en los 90 ms de holgura del DMA</td>
+</tr>
+<tr>
+<td>Meter un <code>ESP_LOGI</code> por muestra dentro de <code>captura</code></td>
+<td>El porcentaje del bloque se dispara y el audio empieza a perderse</td>
+</tr>
+<tr>
+<td>Quitar la resta de la continua</td>
+<td>Con este códec apenas cambia: el ES8311 ya la cancela en digital. Con un convertidor sin ese filtro, como el ADC interno, el nivel en silencio subiría decenas de dB</td>
+</tr>
+<tr>
+<td>Quitar la espera de <code>enviar()</code> en <code>pantalla.c</code></td>
+<td>Los caracteres pueden salir mezclados: el DMA sigue leyendo el buffer mientras se compone el siguiente</td>
+</tr>
+<tr>
+<td>Tapar el micrófono con el dedo</td>
+<td>El nivel baja, pero no llega a −90: lo que queda es el ruido propio de la cadena</td>
+</tr>
+</tbody>
+</table>
+<h2 id="solución-de-problemas">Solución de problemas</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>es8311_codec_new</code> falla o no hay I2C</td>
+<td>Microinterruptores <strong>T7 y T8 en ON</strong>; la placa de audio bien asentada en el Extension Header</td>
+</tr>
+<tr>
+<td>El nivel está fijo en <strong>−90.0 dBFS</strong>, sin moverse ni una décima</td>
+<td>No llega ningún dato del códec: <code>I2S_DIN</code> no es el de tu kit. GPIO46 en el v1.2, GPIO34 en el v1.3. El programa no da ningún error</td>
+</tr>
+<tr>
+<td>El nivel se mueve, pero muy poco</td>
+<td>Ganancia a 0 dB: sube con VOL_UP</td>
+</tr>
+<tr>
+<td>Nivel alto y constante en silencio</td>
+<td>La continua no se está restando, o el micrófono está saturado: baja la ganancia</td>
+</tr>
+<tr>
+<td>Ningún botón responde</td>
+<td><strong>T1, T2, T3 y T5 en OFF</strong>; cable FPC bien insertado</td>
+</tr>
+<tr>
+<td>Un canal siempre activo</td>
+<td>Se calibró con el dedo encima: reiniciar sin tocar</td>
+</tr>
+<tr>
+<td>La pantalla no hace nada y el informe dice <code>(sin pantalla)</code></td>
+<td>Se compiló con <code>PANTALLA=0</code>: ver «Con pantalla y sin pantalla»</td>
+</tr>
+<tr>
+<td>Pantalla apagada, pero el log dice <code>panel ST7789 listo</code></td>
+<td>La retroiluminación no enciende: microinterruptor <strong>T6 en ON</strong></td>
+</tr>
+<tr>
+<td>Pantalla encendida, pero en blanco</td>
+<td>Prueba el otro controlador: <code>-DPANTALLA=2</code></td>
+</tr>
+<tr>
+<td>Colores en negativo: fondo claro y letras oscuras</td>
+<td>Cambia el argumento de <code>esp_lcd_panel_invert_color()</code> en <code>pantalla.c</code></td>
+</tr>
+<tr>
+<td>Rojo y azul intercambiados</td>
+<td>Cambia <code>LCD_RGB_ELEMENT_ORDER_BGR</code> por <code>LCD_RGB_ELEMENT_ORDER_RGB</code> en <code>pantalla.c</code></td>
+</tr>
+<tr>
+<td>Imagen en espejo, o derecha pero cabeza abajo</td>
+<td>Los dos argumentos de <code>esp_lcd_panel_mirror()</code> en <code>pantalla.c</code>: en espejo, cambia uno; cabeza abajo, cambia los dos</td>
+</tr>
+<tr>
+<td><code>A stack overflow in task X</code></td>
+<td>Sube la pila de esa tarea; mira su <code>pila libre</code> en el informe</td>
+</tr>
+<tr>
+<td><code>no se pudo abrir el SPI2</code></td>
+<td>Algo más reclamó el bus antes que la pantalla</td>
+</tr>
+<tr>
+<td><code>Failed to connect</code> con <code>Wrong boot mode detected</code> al flashear</td>
+<td>Kit v1.2: flashea con la placa de audio desmontada, ver «Cómo compilar, flashear y monitorear»</td>
+</tr>
+<tr>
+<td><code>Failed to connect</code> al flashear, sin ese mensaje</td>
+<td>Secuencia <strong>BOOT + RST</strong> (modo bootloader)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li><a href="../../detalle-decibelio-y-punto-fijo.html">../../detalle-decibelio-y-punto-fijo.md</a></li>
+<li><a href="../../detalle-muestreo-y-plegado.html">../../detalle-muestreo-y-plegado.md</a></li>
+<li><a href="../../detalles/i2s-codec-y-pantalla.html">../../detalles/i2s-codec-y-pantalla.md</a></li>
+<li><a href="../../detalles/adc-y-dac-en-el-esp32s2.html">../../detalles/adc-y-dac-en-el-esp32s2.md</a></li>
+<li><a href="../../../clase-4/detalle-cola-semaforo-o-mutex.html">../../../clase-4/detalle-cola-semaforo-o-mutex.md</a></li>
+<li><a href="../../../clase-2/detalles/touch-capacitivo-esp32s2.html">../../../clase-2/detalles/touch-capacitivo-esp32s2.md</a></li>
+<li>Espressif, <em>ESP-IDF Programming Guide — Inter-IC Sound (I2S)</em> y <em>LCD</em>.</li>
+<li>Espressif, <em>ESP32-S2-Kaluga-1 Kit User Guide</em>, «Compatibility of Extension Boards» y «Hardware Revision Details».</li>
+<li>Everest Semiconductor, <em>ES8311 Low Power Mono Audio Codec — Datasheet</em>.</li>
+<li>Guía de conexión e instalación: <a href="../../../bibliografia/Guia-Kaluga-1-macOS-ESP-IDF-VSCode.html">../../../bibliografia/Guia-Kaluga-1-macOS-ESP-IDF-VSCode.md</a></li>
+</ul>
+
+            
+            <script async type="text/javascript">
+/* From extension marp-team.marp-vscode */
+(()=>{var I=Object.defineProperty;var K=(f,u,_)=>u in f?I(f,u,{enumerable:!0,configurable:!0,writable:!0,value:_}):f[u]=_;var r=(f,u)=>I(f,"name",{value:u,configurable:!0});var w=(f,u,_)=>K(f,typeof u!="symbol"?u+"":u,_);(()=>{var f={32(S,E,h){S.exports=h(924)},924(S,E){"use strict";var h;h={value:!0};const b={h1:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"1"},style:"display: block; font-size: 2em; margin-block-start: 0.67em; margin-block-end: 0.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h2:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"2"},style:"display: block; font-size: 1.5em; margin-block-start: 0.83em; margin-block-end: 0.83em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h3:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"3"},style:"display: block; font-size: 1.17em; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h4:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"4"},style:"display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h5:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"5"},style:"display: block; font-size: 0.83em; margin-block-start: 1.67em; margin-block-end: 1.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h6:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"6"},style:"display: block; font-size: 0.67em; margin-block-start: 2.33em; margin-block-end: 2.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},span:{proto:r(()=>HTMLSpanElement,"proto")},pre:{proto:r(()=>HTMLElement,"proto"),style:"display: block; font-family: monospace; white-space: pre; margin: 1em 0; --marp-auto-scaling-white-space: pre;"}},q="data-marp-auto-scaling-wrapper",C="data-marp-auto-scaling-svg",O="data-marp-auto-scaling-container",j=class j extends HTMLElement{constructor(){super();w(this,"container");w(this,"containerSize");w(this,"containerObserver");w(this,"svg");w(this,"svgComputedStyle");w(this,"svgPreserveAspectRatio","xMinYMid meet");w(this,"wrapper");w(this,"wrapperSize");w(this,"wrapperObserver");const n=r(s=>([t])=>{const{width:i,height:o}=t.contentRect;this[s]={width:i,height:o},this.updateSVGRect()},"e");this.attachShadow({mode:"open"}),this.containerObserver=new ResizeObserver(n("containerSize")),this.wrapperObserver=new ResizeObserver((...s)=>{n("wrapperSize")(...s),this.flushSvgDisplay()})}static get observedAttributes(){return["data-downscale-only"]}connectedCallback(){this.shadowRoot.innerHTML=`
+<style>
+  svg[${C}] { display: block; width: 100%; height: auto; vertical-align: top; }
+  span[${O}] { display: table; white-space: var(--marp-auto-scaling-white-space, nowrap); width: max-content; }
+</style>
+<div ${q}>
+  <svg part="svg" ${C}>
+    <foreignObject><span ${O}><slot></slot></span></foreignObject>
+  </svg>
+</div>
+    `.split(/\n\s*/).join(""),this.wrapper=this.shadowRoot.querySelector(`div[${q}]`)??void 0;const n=this.svg;this.svg=this.wrapper?.querySelector(`svg[${C}]`)??void 0,this.svg!==n&&(this.svgComputedStyle=this.svg?window.getComputedStyle(this.svg):void 0),this.container=this.svg?.querySelector(`span[${O}]`)??void 0,this.observe()}disconnectedCallback(){this.svg=void 0,this.svgComputedStyle=void 0,this.wrapper=void 0,this.container=void 0,this.observe()}attributeChangedCallback(){this.observe()}flushSvgDisplay(){const{svg:n}=this;n&&(n.style.display="inline",requestAnimationFrame(()=>{n.style.display=""}))}observe(){this.containerObserver.disconnect(),this.wrapperObserver.disconnect(),this.wrapper&&this.wrapperObserver.observe(this.wrapper),this.container&&this.containerObserver.observe(this.container),this.svgComputedStyle&&this.observeSVGStyle(this.svgComputedStyle)}observeSVGStyle(n){const s=r(()=>{const t=(()=>{const i=n.getPropertyValue("--preserve-aspect-ratio");return i?i.trim():`x${(({textAlign:o,direction:d})=>{if(o.endsWith("left"))return"Min";if(o.endsWith("right"))return"Max";if(o==="start"||o==="end"){let m=d==="rtl";return o==="end"&&(m=!m),m?"Max":"Min"}return"Mid"})(n)}YMid meet`})();t!==this.svgPreserveAspectRatio&&(this.svgPreserveAspectRatio=t,this.updateSVGRect()),n===this.svgComputedStyle&&requestAnimationFrame(s)},"t");s()}updateSVGRect(){let n=Math.ceil(this.containerSize?.width??0);const s=Math.ceil(this.containerSize?.height??0);this.dataset.downscaleOnly!==void 0&&(n=Math.max(n,this.wrapperSize?.width??0));const t=this.svg?.querySelector(":scope > foreignObject");if(t?.setAttribute("width",`${n}`),t?.setAttribute("height",`${s}`),this.svg&&(this.svg.setAttribute("viewBox",`0 0 ${n} ${s}`),this.svg.setAttribute("preserveAspectRatio",this.svgPreserveAspectRatio),this.svg.style.height=n<=0||s<=0?"0":""),this.container){const i=this.svgPreserveAspectRatio.toLowerCase();this.container.style.marginLeft=i.startsWith("xmid")||i.startsWith("xmax")?"auto":"0",this.container.style.marginRight=i.startsWith("xmi")?"auto":"0"}}};r(j,"s");let k=j;const T=r((c,{attrs:v={},style:n})=>class extends c{constructor(...s){super(...s);for(const[t,i]of Object.entries(v))this.hasAttribute(t)||this.setAttribute(t,i);this._shadow()}static get observedAttributes(){return["data-auto-scaling"]}connectedCallback(){this._update()}attributeChangedCallback(){this._update()}_shadow(){if(!this.shadowRoot)try{this.attachShadow({mode:"open"})}catch(s){if(!(s instanceof Error&&s.name==="NotSupportedError"))throw s}return this.shadowRoot}_update(){const s=this._shadow();if(s){const t=n?`<style>:host { ${n} }</style>`:"";let i="<slot></slot>";const{autoScaling:o}=this.dataset;o!==void 0&&(i=`<marp-auto-scaling exportparts="svg:auto-scaling" ${o==="downscale-only"?"data-downscale-only":""}>${i}</marp-auto-scaling>`),s.innerHTML=t+i}}},"r");let L;const z=r(()=>L??(L=!!document.createElement("div",{is:"marp-auto-scaling"}).outerHTML.startsWith("<div is"),L),"a"),F=Symbol();let A;const a="marpitSVGPolyfill:setZoomFactor,",l=Symbol(),e=Symbol(),p=r(()=>{const c=navigator.vendor==="Apple Computer, Inc.",v=c?[H]:[],n={then:r(s=>(c?(async()=>{if(A===void 0){const t=document.createElement("canvas");t.width=10,t.height=10;const i=t.getContext("2d"),o=new Image(10,10),d=new Promise(m=>{o.addEventListener("load",()=>m())});o.crossOrigin="anonymous",o.src="data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%201%201%22%3E%3CforeignObject%20width%3D%221%22%20height%3D%221%22%20requiredExtensions%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Cdiv%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%20style%3D%22width%3A%201px%3B%20height%3A%201px%3B%20background%3A%20red%3B%20position%3A%20relative%22%3E%3C%2Fdiv%3E%3C%2FforeignObject%3E%3C%2Fsvg%3E",await d,i.drawImage(o,0,0),A=i.getImageData(5,5,1,1).data[3]<128}return A})().then(t=>{s?.(t?[H]:[])}):s?.([]),n),"then")};return Object.assign(v,n)},"p");let y,g;function H(c){const v=typeof c=="object"&&c.target||document,n=typeof c=="object"?c.zoom:c;window[e]||(Object.defineProperty(window,e,{configurable:!0,value:!0}),document.body.style.zoom=1.0001,document.body.offsetHeight,document.body.style.zoom=1,window.addEventListener("message",({data:t,origin:i})=>{if(i===window.origin)try{if(t&&typeof t=="string"&&t.startsWith(a)){const[,o]=t.split(","),d=Number.parseFloat(o);Number.isNaN(d)||(g=d)}}catch(o){console.error(o)}}));let s=!1;Array.from(v.querySelectorAll("svg[data-marpit-svg]"),t=>{var i,o,d,m;t.style.transform||(t.style.transform="translateZ(0)");const x=n||g||t.currentScale||1;y!==x&&(y=x,s=x);const W=t.getBoundingClientRect(),{length:Z}=t.children;for(let N=0;N<Z;N+=1){const $=t.children[N];if($.getScreenCTM){const M=$.getScreenCTM();if(M){const U=(o=(i=$.x)===null||i===void 0?void 0:i.baseVal.value)!==null&&o!==void 0?o:0,X=(m=(d=$.y)===null||d===void 0?void 0:d.baseVal.value)!==null&&m!==void 0?m:0,J=$.children.length;for(let P=0;P<J;P+=1){const G=$.children[P];if(G.tagName==="SECTION"){const{style:D}=G;D.transformOrigin||(D.transformOrigin=`${-U}px ${-X}px`),D.transform=`scale(${x}) matrix(${M.a}, ${M.b}, ${M.c}, ${M.d}, ${M.e-W.left}, ${M.f-W.top}) translateZ(0.0001px)`;break}}}}}}),s!==!1&&Array.from(v.querySelectorAll("iframe"),({contentWindow:t})=>{t?.postMessage(`${a}${s}`,window.origin==="null"?"*":window.origin)})}r(H,"v");function B({once:c=!1,target:v=document}={}){const n=(function(s=document){if(s[l])return s[l];let t=!0;const i=r(()=>{t=!1,delete s[l]},"i");Object.defineProperty(s,l,{configurable:!0,value:i});let o=[],d=!1;(async()=>{try{o=await p()}finally{d=!0}})();const m=r(()=>{for(const x of o)x({target:s});d&&o.length===0||t&&window.requestAnimationFrame(m)},"r");return m(),i})(v);return c?(n(),()=>{}):n}r(B,"w"),y=1,g=void 0;const Y=B,R=Symbol(),V=r((c=document)=>{if(typeof window>"u")throw new Error("Marp Core's browser script is valid only in browser context.");if(((t=document)=>{const i=window[F];i||customElements.define("marp-auto-scaling",k);for(const o of Object.keys(b)){const d=`marp-${o}`,m=b[o].proto();z()&&m!==HTMLElement?i||customElements.define(d,T(m,{style:b[o].style}),{extends:o}):(i||customElements.define(d,T(HTMLElement,b[o])),t.querySelectorAll(`${o}[is="${d}"]`).forEach(x=>{x.outerHTML=x.outerHTML.replace(new RegExp(`^<${o}`,"i"),`<${d}`).replace(new RegExp(`</${o}>$`,"i"),`</${d}>`)}))}window[F]=!0})(c),c[R])return c[R];const v=B({target:c}),n=r(()=>{v(),delete c[R]},"n"),s=Object.assign(n,{cleanup:n,update:r(()=>V(c),"update")});return Object.defineProperty(c,R,{configurable:!0,value:s}),s},"f");E.browser=V,h=V,h=Y}};const u={};function _(S){const E=u[S];if(E!==void 0)return E.exports;const h=u[S]={exports:{}};return f[S](h,h.exports,_),h.exports}r(_,"__webpack_require__");let Q={};(()=>{"use strict";var S=_(32);const E="marp_vscode_content_section",h="data-marp-vscode-content-start-line",b="data-marp-vscode-content-end-line";function q(a){a.core.ruler.push(E,l=>{if(l.inlineMode)return;let e=null,p=0,y=0;for(const g of l.tokens)g.map&&(p=g.map[0],y=Math.max(y,...g.map)),g.type==="marpit_slide_open"&&(e&&(e.map&&e.attrSet(h,e.map[0]),e.attrSet(b,p-1)),e=g);e&&(e.map&&e.attrSet(h,e.map[0]),e.attrSet(b,y))})}r(q,"marpVSCodeContentSection");const C="marp-vscode.overflowTracker",O=r(a=>typeof a=="object"&&a!=null&&"type"in a&&a.type===C&&"overflowElements"in a&&Array.isArray(a.overflowElements),"isOverflowTrackerEvent"),A=class A{constructor(l){this.postMessage=l,this.delay=150,this.update()}update(){window.setTimeout(()=>this.detectOverflowElements(),this.delay)}cleanup(){}detectOverflowElements(){const l=[];for(const e of document.querySelectorAll(`section[${h}][${b}]`)){const p=e.scrollWidth-e.clientWidth,y=e.scrollHeight-e.clientHeight;if(p<=0&&y<=0)continue;const g=parseInt(e.getAttribute(h)||"",10),H=parseInt(e.getAttribute(b)||"",10);Number.isNaN(g)||Number.isNaN(H)||l.push({startLine:g,endLine:H})}this.postMessage(C,{overflowElements:l})}};r(A,"OverflowTracker");let k=A;function T(){let a;const l=window.cspAlerter?._messaging?.postMessage||window.styleLoadingMonitor?._poster?.postMessage,e=r(()=>{const p=document.getElementById("__marp-vscode");!!a!=!!p?(document.body.classList.toggle("marp-vscode",!!p),p?a={browser:(0,S.browser)(),overflowTracker:l?new k(l):void 0}:(a?.browser.cleanup(),a?.overflowTracker?.cleanup(),a=void 0)):(a?.browser.update(),a?.overflowTracker?.update()),a?(p&&L(p),z()):F()},"updateCallback");window.addEventListener("load",()=>window.setTimeout(e,100)),window.addEventListener("vscode.markdown.updateContent",e),e()}r(T,"preview");const L=r(a=>{a.querySelectorAll("[is]").forEach(l=>{if(l.nodeName.includes("-")||document.createElement(l.nodeName).constructor!==l.constructor)return;const{outerHTML:p}=l;l.outerHTML=p,console.debug("[marp-vscode] Custom element has been upgraded forcibly:",p.slice(0,p.indexOf(">")+1||void 0))})},"forceUpgradeCustomElements"),z=r(()=>{const a=document.querySelectorAll("style:not(#__marp-vscode-style,#_defaultStyles,[data-marp-vscode-body])"),l=document.querySelectorAll('link[rel="stylesheet"][href]:not([href*="marp-vscode"])');a.forEach(e=>{e.closest("#__marp-vscode")||(e.dataset.marpVscodeBody=e.textContent??"",e.textContent="")}),l.forEach(e=>{if(e.closest("#__marp-vscode"))return;const{href:p}=e;e.dataset.marpVscodeHref=p,e.removeAttribute("href")})},"removeStyles"),F=r(()=>{const a=document.querySelectorAll("style[data-marp-vscode-body]"),l=document.querySelectorAll("link[data-marp-vscode-href]");a.forEach(e=>{e.textContent=e.dataset.marpVscodeBody||"",delete e.dataset.marpVscodeBody}),l.forEach(e=>{e.href=e.dataset.marpVscodeHref||"",delete e.dataset.marpVscodeHref})},"restoreStyles");T()})()})();})();
+
+</script>
+
+        </body>
+        </html>

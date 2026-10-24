@@ -1,0 +1,22 @@
+# Valores por defecto de este ejemplo. idf.py los aplica al crear el
+# sdkconfig; para cambiarlos después, `idf.py menuconfig` o borrar sdkconfig.
+
+# Tick de 1 ms en vez de los 10 ms por defecto. Un bloque de audio son 32 ms:
+# con un tick de 10 ms, el retraso mínimo de cualquier tarea sería un tercio
+# del bloque, y los tiempos medidos en el informe no significarían nada.
+CONFIG_FREERTOS_HZ=1000
+
+# Habilita uxTaskGetSystemState()/vTaskList(): es lo que permite ver el estado
+# y la pila de cada tarea en el informe periódico.
+CONFIG_FREERTOS_USE_TRACE_FACILITY=y
+CONFIG_FREERTOS_USE_STATS_FORMATTING_FUNCTIONS=y
+
+# Avisa por consola si una tarea desborda su pila en lugar de reiniciar sin
+# explicación.
+CONFIG_FREERTOS_CHECK_STACKOVERFLOW_CANARY=y
+
+# La PSRAM del módulo ESP32-S2-WROVER (2 MB) no hace falta para el VU-metro,
+# pero SÍ para la App 5: 10 s de audio a 16 kHz son 320 KB y no caben en la
+# SRAM interna. Se deja habilitada desde el principio para que el entregable
+# no tenga que cambiar la configuración a mitad de camino.
+CONFIG_SPIRAM=y

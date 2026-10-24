@@ -1,0 +1,11 @@
+# Componentes gestionados que ESP-IDF descarga automáticamente al compilar.
+dependencies:
+  # Driver para LEDs direccionables (WS2812), usado por el LED RGB del Kaluga-1.
+  espressif/led_strip: "^3.0.3"
+  # Capa de códecs de audio de Espressif: aquí solo se usa el ES8311, pero es
+  # la misma API para todos. Configura el códec por I2C; las muestras siguen
+  # yendo por I2S, que es un bus distinto.
+  espressif/esp_codec_dev: "^1.6.2"
+  # Controlador del panel ILI9341, solo necesario con -DPANTALLA=2. El ST7789
+  # ya viene dentro del componente esp_lcd de ESP-IDF.
+  espressif/esp_lcd_ili9341: "^2.1.0"

@@ -1,0 +1,24 @@
+# Valores por defecto de este ejemplo. idf.py los aplica al crear el
+# sdkconfig; para cambiarlos después, `idf.py menuconfig` o borrar sdkconfig.
+
+# El barrido de la PARTE 2 mide bloques de 4096 muestras a 80 kHz: cada bloque
+# tarda 51 ms y app_main se queda dentro de adc_continuous_read_parse() sin
+# ceder la CPU a la tarea IDLE. Desactivamos SOLO esa comprobación del
+# watchdog, igual que en el ejemplo `arquitecturas` de la Clase 4.
+CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU0=n
+
+# Avisa por consola si una tarea desborda su pila en vez de reiniciar sin
+# explicación. El bloque de 4096 muestras parseadas vive en el heap, no en la
+# pila, precisamente por esto.
+CONFIG_FREERTOS_CHECK_STACKOVERFLOW_CANARY=y
+
+# El driver oneshot del ADC APAGA por defecto, y en cada lectura, el DAC que
+# comparte pad con el canal que se lee (GPIO17 y GPIO18 en el ESP32-S2). Es
+# una protección razonable cuando el pad lleva un sensor externo, y justo lo
+# contrario de lo que necesita la PARTE 1, que mide la salida de su propio
+# DAC. La ayuda de la opción lo dice tal cual: "Disable this option so as to
+# measure the output of DAC by internal ADC, for test usage".
+#
+# Sin esta línea el ejemplo compila, arranca y no da ningún error: la primera
+# lectura apaga el DAC y a partir de ahí se mide un pad que nadie excita.
+CONFIG_ADC_DISABLE_DAC_OUTPUT=n
